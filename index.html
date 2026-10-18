@@ -23,14 +23,14 @@
             align-items: center;
             gap: 20px;
             width: 100%;
-            max-width: 720px;
+            max-width: 760px;
             padding: 20px;
             box-sizing: border-box;
         }
         .sim-card {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
             background: #ffffff;
             padding: 30px;
             border-radius: 16px;
@@ -44,7 +44,7 @@
         .inputs-section {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 30px;
             background: #f8fafc;
             padding: 18px;
             border-radius: 12px;
@@ -62,6 +62,11 @@
             color: #475569;
             letter-spacing: 0.05em;
         }
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         .toggle-btn {
             background: #e2e8f0;
             color: #475569;
@@ -72,7 +77,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 75px;
+            width: 65px;
             text-align: center;
         }
         .toggle-btn.active {
@@ -82,22 +87,45 @@
             box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
         }
 
-        /* Gates Grid */
+        /* Small Connected Input Bubble */
+        .input-bubble {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            background: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 0.75rem;
+            color: #64748b;
+            transition: all 0.2s ease;
+        }
+        .input-bubble.lit {
+            background: #fef08a;
+            border-color: #eab308;
+            color: #854d0e;
+            box-shadow: 0 0 10px rgba(234, 179, 8, 0.6);
+        }
+
+        /* Gates Grid Layout */
         .gates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
         }
         .gate-box {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 20px 15px;
+            padding: 18px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             transition: border-color 0.2s ease;
+            position: relative;
         }
         .gate-box:hover {
             border-color: #cbd5e1;
@@ -109,7 +137,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 240px;
+            max-width: 260px;
         }
         svg {
             width: 130px;
@@ -142,18 +170,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
         .output-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 800;
             color: #64748b;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
         .output-bulb {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 2px solid #cbd5e1;
             background: #e2e8f0;
@@ -161,7 +189,7 @@
             justify-content: center;
             align-items: center;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #64748b;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -205,53 +233,66 @@
 
 <div class="main-container">
     <div class="sim-card">
-        <!-- Input Switches -->
+        <!-- Input Switches (A, B, C) -->
         <div class="inputs-section">
             <div class="input-control">
                 <span class="input-label">A</span>
-                <button class="toggle-btn" id="switchA" onclick="toggleInput('A')">0</button>
+                <div class="input-group">
+                    <button class="toggle-btn" id="switchA" onclick="toggleInput('A')">0</button>
+                    <div class="input-bubble" id="bubbleA">0</div>
+                </div>
             </div>
             <div class="input-control">
                 <span class="input-label">B</span>
-                <button class="toggle-btn" id="switchB" onclick="toggleInput('B')">0</button>
+                <div class="input-group">
+                    <button class="toggle-btn" id="switchB" onclick="toggleInput('B')">0</button>
+                    <div class="input-bubble" id="bubbleB">0</div>
+                </div>
+            </div>
+            <div class="input-control">
+                <span class="input-label">C</span>
+                <div class="input-group">
+                    <button class="toggle-btn" id="switchC" onclick="toggleInput('C')">0</button>
+                    <div class="input-bubble" id="bubbleC">0</div>
+                </div>
             </div>
         </div>
 
-        <!-- Logic Gates Display Grid with Connected Schematic Symbols -->
+        <!-- Gates Grid Layout (NOT separated on top, NAND & NOR on bottom) -->
         <div class="gates-grid">
-            <!-- NOT A -->
+            <!-- NOT Gate (Connected to Input C) -->
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
-                        <line x1="0" y1="30" x2="25" y2="30" class="wire" id="wire_notA_in"/>
+                        <line x1="0" y1="30" x2="25" y2="30" class="wire" id="wire_not_in"/>
                         <polygon points="25,12 25,48 62,30" class="gate-shape"/>
                         <circle cx="67" cy="30" r="4" class="gate-shape"/>
-                        <line x1="71" y1="30" x2="100" y2="30" class="wire" id="wire_notA_out"/>
+                        <line x1="71" y1="30" x2="100" y2="30" class="wire" id="wire_not_out"/>
                     </svg>
                     <div class="output-indicator">
                         <span class="output-label">OUT</span>
-                        <div class="output-bulb" id="bulbNotA">0</div>
+                        <div class="output-bulb" id="bulbNot">0</div>
                     </div>
                 </div>
             </div>
 
-            <!-- NOT B -->
+            <!-- Second NOT Gate (Optional independent or mirrored, set to C as well) -->
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
-                        <line x1="0" y1="30" x2="25" y2="30" class="wire" id="wire_notB_in"/>
+                        <line x1="0" y1="30" x2="25" y2="30" class="wire" id="wire_not2_in"/>
                         <polygon points="25,12 25,48 62,30" class="gate-shape"/>
                         <circle cx="67" cy="30" r="4" class="gate-shape"/>
-                        <line x1="71" y1="30" x2="100" y2="30" class="wire" id="wire_notB_out"/>
+                        <line x1="71" y1="30" x2="100" y2="30" class="wire" id="wire_not2_out"/>
                     </svg>
                     <div class="output-indicator">
                         <span class="output-label">OUT</span>
-                        <div class="output-bulb" id="bulbNotB">0</div>
+                        <div class="output-bulb" id="bulbNot2">0</div>
                     </div>
                 </div>
             </div>
 
-            <!-- NAND -->
+            <!-- NAND (Connected to Inputs A and B) -->
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
@@ -268,7 +309,7 @@
                 </div>
             </div>
 
-            <!-- NOR -->
+            <!-- NOR (Connected to Inputs A and B) -->
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
@@ -296,6 +337,7 @@
 <script>
     let inputA = 0;
     let inputB = 0;
+    let inputC = 0;
 
     let audioCtx = null;
     function playClick() {
@@ -320,6 +362,8 @@
             inputA = inputA === 0 ? 1 : 0;
         } else if (target === 'B') {
             inputB = inputB === 0 ? 1 : 0;
+        } else if (target === 'C') {
+            inputC = inputC === 0 ? 1 : 0;
         }
         updateSimulator();
     }
@@ -328,38 +372,51 @@
         playClick();
         inputA = 0;
         inputB = 0;
+        inputC = 0;
         updateSimulator();
     }
 
     function updateSimulator() {
-        // Toggle Buttons
+        // Toggle Buttons & Input Bubbles
         const btnA = document.getElementById('switchA');
         const btnB = document.getElementById('switchB');
+        const btnC = document.getElementById('switchC');
+        const bubbleA = document.getElementById('bubbleA');
+        const bubbleB = document.getElementById('bubbleB');
+        const bubbleC = document.getElementById('bubbleC');
 
         btnA.textContent = inputA;
         btnA.classList.toggle('active', inputA === 1);
+        bubbleA.textContent = inputA;
+        bubbleA.classList.toggle('lit', inputA === 1);
 
         btnB.textContent = inputB;
         btnB.classList.toggle('active', inputB === 1);
+        bubbleB.textContent = inputB;
+        bubbleB.classList.toggle('lit', inputB === 1);
+
+        btnC.textContent = inputC;
+        btnC.classList.toggle('active', inputC === 1);
+        bubbleC.textContent = inputC;
+        bubbleC.classList.toggle('lit', inputC === 1);
 
         // Calculate Logic Out
-        const notA = inputA === 0 ? 1 : 0;
-        const notB = inputB === 0 ? 1 : 0;
+        const notC = inputC === 0 ? 1 : 0;
         const nandOut = (inputA === 1 && inputB === 1) ? 0 : 1;
         const norOut = (inputA === 1 || inputB === 1) ? 0 : 1;
 
         // Set Bulbs
-        setBulb('bulbNotA', notA);
-        setBulb('bulbNotB', notB);
+        setBulb('bulbNot', notC);
+        setBulb('bulbNot2', notC);
         setBulb('bulbNand', nandOut);
         setBulb('bulbNor', norOut);
 
         // Update Dynamic Wires
-        setWire('wire_notA_in', inputA);
-        setWire('wire_notA_out', notA);
+        setWire('wire_not_in', inputC);
+        setWire('wire_not_out', notC);
 
-        setWire('wire_notB_in', inputB);
-        setWire('wire_notB_out', notB);
+        setWire('wire_not2_in', inputC);
+        setWire('wire_not2_out', notC);
 
         setWire('wire_nand_a', inputA);
         setWire('wire_nand_b', inputB);
