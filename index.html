@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Gate Simulator - NAND, NOR, NOT</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: transparent; /* Transparent background for Google Sites */
+            font-family: system-ui, -apple-system, sans-serif;
+            color: #1e293b;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 650px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sim-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Header / Inputs Section */
+        .inputs-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .input-control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .input-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #475569;
+        }
+        .toggle-btn {
+            background: #cbd5e1;
+            color: #334155;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 70px;
+        }
+        .toggle-btn.active {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Gates Grid */
+        .gates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 15px;
+        }
+        .gate-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+        .gate-name {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        .gate-desc {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        .output-bulb {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            background: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1rem;
+            color: #64748b;
+            transition: all 0.2s ease;
+        }
+        .output-bulb.lit {
+            background: #fef08a;
+            border-color: #eab308;
+            color: #ca8a04;
+            box-shadow: 0 0 15px #fde047;
+        }
+
+        /* Controls */
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+        .sim-btn {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex: 1;
+        }
+        .sim-btn:hover {
+            background: #475569;
+        }
+
+        /* Disclaimer Section */
+        .disclaimer-container {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+            margin-top: 5px;
+            text-align: center;
+        }
+        .disclaimer-toggle {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            transition: color 0.2s;
+        }
+        .disclaimer-toggle:hover {
+            color: #3b82f6;
+        }
+        .disclaimer-content {
+            font-size: 0.75rem;
+            color: #64748b;
+            background: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            margin-top: 10px;
+            text-align: left;
+            line-height: 1.4;
+        }
+        .disclaimer-content a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .disclaimer-content a:hover {
+            text-decoration: underline;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="sim-card">
+        <!-- Input Switches -->
+        <div class="inputs-section">
+            <div class="input-control">
+                <span class="input-label">Input A</span>
+                <button class="toggle-btn" id="switchA" onclick="toggleInput('A')">0</button>
+            </div>
+            <div class="input-control">
+                <span class="input-label">Input B</span>
+                <button class="toggle-btn" id="switchB" onclick="toggleInput('B')">0</button>
+            </div>
+        </div>
+
+        <!-- Logic Gates Display Grid -->
+        <div class="gates-grid">
+            <!-- NOT A -->
+            <div class="gate-box">
+                <div class="gate-name">NOT A</div>
+                <div class="gate-desc">Inverts Input A</div>
+                <div class="output-bulb" id="bulbNotA">0</div>
+            </div>
+            <!-- NOT B -->
+            <div class="gate-box">
+                <div class="gate-name">NOT B</div>
+                <div class="gate-desc">Inverts Input B</div>
+                <div class="output-bulb" id="bulbNotB">0</div>
+            </div>
+            <!-- NAND -->
+            <div class="gate-box">
+                <div class="gate-name">NAND</div>
+                <div class="gate-desc">NOT (A AND B)</div>
+                <div class="output-bulb" id="bulbNand">0</div>
+            </div>
+            <!-- NOR -->
+            <div class="gate-box">
+                <div class="gate-name">NOR</div>
+                <div class="gate-desc">NOT (A OR B)</div>
+                <div class="output-bulb" id="bulbNor">0</div>
+            </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="controls-row">
+            <button class="sim-btn" onclick="resetInputs()">Reset Inputs</button>
+        </div>
+
+        <!-- Footer Disclaimer Dropdown -->
+        <div class="disclaimer-container">
+            <button class="disclaimer-toggle" onclick="toggleDisclaimer()">Disclaimer</button>
+            <div class="disclaimer-content hidden" id="disclaimerBox">
+                <strong>Development & AI Disclaimer:</strong><br>
+                Purely the interactive components, such as quizzes and simulators, were generated using Google Gemini large language models with direct human oversight, design direction, and code validation by Bodin Fellure.<br><br>
+                Source code can be found at: <a href="https://github.com/BFellure/BinarySimulation/tree/main" target="_blank">https://github.com/BFellure/BinarySimulation/tree/main</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let inputA = 0;
+    let inputB = 0;
+
+    // Web Audio API click feedback
+    let audioCtx = null;
+    function playClick() {
+        try {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.04);
+        } catch(e) {}
+    }
+
+    function toggleInput(target) {
+        playClick();
+        if (target === 'A') {
+            inputA = inputA === 0 ? 1 : 0;
+        } else {
+            inputB = inputB === 0 ? 1 : 0;
+        }
+        updateSimulator();
+    }
+
+    function resetInputs() {
+        playClick();
+        inputA = 0;
+        inputB = 0;
+        updateSimulator();
+    }
+
+    function updateSimulator() {
+        // Update switch states
+        const btnA = document.getElementById('switchA');
+        const btnB = document.getElementById('switchB');
+
+        btnA.textContent = inputA;
+        btnB.textContent = inputA; // wait fix below
+        btnA.classList.toggle('active', inputA === 1);
+        
+        btnB.textContent = inputB;
+        btnB.classList.toggle('active', inputB === 1);
+
+        // Logic calculations
+        const notA = inputA === 0 ? 1 : 0;
+        const notB = inputB === 0 ? 1 : 0;
+        const nandOut = (inputA === 1 && inputB === 1) ? 0 : 1;
+        const norOut = (inputA === 1 || inputB === 1) ? 0 : 1;
+
+        // Update bulb displays
+        setBulb('bulbNotA', notA);
+        setBulb('bulbNotB', notB);
+        setBulb('bulbNand', nandOut);
+        setBulb('bulbNor', norOut);
+    }
+
+    function setBulb(bulbId, state) {
+        const bulb = document.getElementById(bulbId);
+        bulb.textContent = state;
+        if (state === 1) {
+            bulb.classList.add('lit');
+        } else {
+            bulb.classList.remove('lit');
+        }
+    }
+
+    function toggleDisclaimer() {
+        const box = document.getElementById('disclaimerBox');
+        box.classList.toggle('hidden');
+    }
+
+    // Initial render
+    updateSimulator();
+</script>
+
+</body>
+</html>
