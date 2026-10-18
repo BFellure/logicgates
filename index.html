@@ -14,8 +14,8 @@
             align-items: center;
             min-height: 100vh;
             background: transparent;
-            font-family: system-ui, -apple-system, sans-serif;
-            color: #1e293b;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #0f172a;
         }
         .main-container {
             display: flex;
@@ -30,11 +30,11 @@
         .sim-card {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
             background: #ffffff;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
             border: 1px solid #e2e8f0;
             width: 100%;
             box-sizing: border-box;
@@ -44,11 +44,11 @@
         .inputs-section {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             background: #f8fafc;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
         }
         .input-control {
             display: flex;
@@ -57,57 +57,84 @@
             gap: 8px;
         }
         .input-label {
-            font-size: 0.85rem;
-            font-weight: 700;
+            font-size: 0.9rem;
+            font-weight: 800;
             color: #475569;
+            letter-spacing: 0.05em;
         }
         .toggle-btn {
-            background: #cbd5e1;
-            color: #334155;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
+            background: #e2e8f0;
+            color: #475569;
+            border: 2px solid #cbd5e1;
+            padding: 8px 0;
+            font-size: 1.1rem;
             font-weight: 800;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
-            width: 70px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 75px;
+            text-align: center;
         }
         .toggle-btn.active {
-            background: #3b82f6;
+            background: #ef4444;
             color: white;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            border-color: #dc2626;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
         }
 
         /* Gates Grid */
         .gates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+            gap: 16px;
         }
         .gate-box {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            text-align: center;
+            justify-content: center;
+            transition: border-color 0.2s ease;
+        }
+        .gate-box:hover {
+            border-color: #cbd5e1;
         }
 
         /* SVG Schematic Container */
         .schematic-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            justify-content: space-between;
             width: 100%;
+            max-width: 240px;
         }
         svg {
-            width: 110px;
-            height: 60px;
+            width: 130px;
+            height: 70px;
+        }
+
+        /* Dynamic Signal Wire & Pulse Animation */
+        .wire {
+            stroke: #94a3b8;
+            stroke-width: 3;
+            transition: stroke 0.2s ease;
+        }
+        .wire.active {
+            stroke: #ef4444;
+            animation: wirePulse 1.2s infinite linear;
+        }
+        @keyframes wirePulse {
+            0% { stroke-opacity: 1; stroke-dasharray: 4, 4; stroke-dashoffset: 8; }
+            100% { stroke-opacity: 1; stroke-dasharray: 4, 4; stroke-dashoffset: 0; }
+        }
+
+        .gate-shape {
+            fill: #ffffff;
+            stroke: #0284c7;
+            stroke-width: 3;
         }
 
         /* Output Bulb Indicator */
@@ -115,17 +142,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
         .output-label {
-            font-size: 0.65rem;
-            font-weight: 700;
+            font-size: 0.7rem;
+            font-weight: 800;
             color: #64748b;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         .output-bulb {
-            width: 34px;
-            height: 34px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 2px solid #cbd5e1;
             background: #e2e8f0;
@@ -133,15 +161,21 @@
             justify-content: center;
             align-items: center;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #64748b;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .output-bulb.lit {
             background: #fef08a;
             border-color: #eab308;
-            color: #ca8a04;
-            box-shadow: 0 0 12px #fde047;
+            color: #854d0e;
+            box-shadow: 0 0 16px rgba(234, 179, 8, 0.6);
+            transform: scale(1.05);
+            animation: bulbGlow 1.5s infinite alternate;
+        }
+        @keyframes bulbGlow {
+            0% { box-shadow: 0 0 12px rgba(234, 179, 8, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.8); }
         }
 
         /* Controls */
@@ -151,19 +185,19 @@
             width: 100%;
         }
         .sim-btn {
-            background: #64748b;
+            background: #475569;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 0.9rem;
             font-weight: 700;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
             flex: 1;
         }
         .sim-btn:hover {
-            background: #475569;
+            background: #334155;
         }
     </style>
 </head>
@@ -189,13 +223,13 @@
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
-                        <polygon points="20,10 20,50 65,30" fill="none" stroke="#334155" stroke-width="3"/>
-                        <circle cx="71" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
-                        <line x1="5" y1="30" x2="20" y2="30" stroke="#334155" stroke-width="3"/>
-                        <line x1="76" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="30" x2="20" y2="30" class="wire" id="wire_notA_in"/>
+                        <polygon points="20,10 20,50 65,30" class="gate-shape"/>
+                        <circle cx="71" cy="30" r="5" class="gate-shape"/>
+                        <line x1="76" y1="30" x2="95" y2="30" class="wire" id="wire_notA_out"/>
                     </svg>
                     <div class="output-indicator">
-                        <span class="output-label">Out</span>
+                        <span class="output-label">OUT</span>
                         <div class="output-bulb" id="bulbNotA">0</div>
                     </div>
                 </div>
@@ -205,13 +239,13 @@
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
-                        <polygon points="20,10 20,50 65,30" fill="none" stroke="#334155" stroke-width="3"/>
-                        <circle cx="71" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
-                        <line x1="5" y1="30" x2="20" y2="30" stroke="#334155" stroke-width="3"/>
-                        <line x1="76" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="30" x2="20" y2="30" class="wire" id="wire_notB_in"/>
+                        <polygon points="20,10 20,50 65,30" class="gate-shape"/>
+                        <circle cx="71" cy="30" r="5" class="gate-shape"/>
+                        <line x1="76" y1="30" x2="95" y2="30" class="wire" id="wire_notB_out"/>
                     </svg>
                     <div class="output-indicator">
-                        <span class="output-label">Out</span>
+                        <span class="output-label">OUT</span>
                         <div class="output-bulb" id="bulbNotB">0</div>
                     </div>
                 </div>
@@ -221,14 +255,14 @@
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
-                        <path d="M 20 10 L 45 10 A 20 20 0 0 1 45 50 L 20 50 Z" fill="none" stroke="#334155" stroke-width="3"/>
-                        <circle cx="69" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
-                        <line x1="5" y1="20" x2="20" y2="20" stroke="#334155" stroke-width="3"/>
-                        <line x1="5" y1="40" x2="20" y2="40" stroke="#334155" stroke-width="3"/>
-                        <line x1="74" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="20" x2="20" y2="20" class="wire" id="wire_nand_a"/>
+                        <line x1="5" y1="40" x2="20" y2="40" class="wire" id="wire_nand_b"/>
+                        <path d="M 20 10 L 45 10 A 20 20 0 0 1 45 50 L 20 50 Z" class="gate-shape"/>
+                        <circle cx="69" cy="30" r="5" class="gate-shape"/>
+                        <line x1="74" y1="30" x2="95" y2="30" class="wire" id="wire_nand_out"/>
                     </svg>
                     <div class="output-indicator">
-                        <span class="output-label">Out</span>
+                        <span class="output-label">OUT</span>
                         <div class="output-bulb" id="bulbNand">0</div>
                     </div>
                 </div>
@@ -238,6 +272,128 @@
             <div class="gate-box">
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
-                        <path d="M 15 10 Q 30 30 15 50 Q 45 50 65 30 Q 45 10 15 10 Z" fill="none" stroke="#334155" stroke-width="3"/>
-                        <circle cx="71" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
-                        <line x1="5" y1="20" x2="21" y2="20" stroke="#334155" stroke-
+                        <line x1="5" y1="20" x2="21" y2="20" class="wire" id="wire_nor_a"/>
+                        <line x1="5" y1="40" x2="21" y2="40" class="wire" id="wire_nor_b"/>
+                        <path d="M 15 10 Q 30 30 15 50 Q 45 50 65 30 Q 45 10 15 10 Z" class="gate-shape"/>
+                        <circle cx="71" cy="30" r="5" class="gate-shape"/>
+                        <line x1="76" y1="30" x2="95" y2="30" class="wire" id="wire_nor_out"/>
+                    </svg>
+                    <div class="output-indicator">
+                        <span class="output-label">OUT</span>
+                        <div class="output-bulb" id="bulbNor">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="controls-row">
+            <button class="sim-btn" onclick="resetInputs()">Reset Inputs</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let inputA = 0;
+    let inputB = 0;
+
+    let audioCtx = null;
+    function playClick() {
+        try {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.04);
+        } catch(e) {}
+    }
+
+    function toggleInput(target) {
+        playClick();
+        if (target === 'A') {
+            inputA = inputA === 0 ? 1 : 0;
+        } else if (target === 'B') {
+            inputB = inputB === 0 ? 1 : 0;
+        }
+        updateSimulator();
+    }
+
+    function resetInputs() {
+        playClick();
+        inputA = 0;
+        inputB = 0;
+        updateSimulator();
+    }
+
+    function updateSimulator() {
+        // Toggle Buttons
+        const btnA = document.getElementById('switchA');
+        const btnB = document.getElementById('switchB');
+
+        btnA.textContent = inputA;
+        btnA.classList.toggle('active', inputA === 1);
+
+        btnB.textContent = inputB;
+        btnB.classList.toggle('active', inputB === 1);
+
+        // Calculate Logic Out
+        const notA = inputA === 0 ? 1 : 0;
+        const notB = inputB === 0 ? 1 : 0;
+        const nandOut = (inputA === 1 && inputB === 1) ? 0 : 1;
+        const norOut = (inputA === 1 || inputB === 1) ? 0 : 1;
+
+        // Set Bulbs
+        setBulb('bulbNotA', notA);
+        setBulb('bulbNotB', notB);
+        setBulb('bulbNand', nandOut);
+        setBulb('bulbNor', norOut);
+
+        // Update Dynamic Wires
+        setWire('wire_notA_in', inputA);
+        setWire('wire_notA_out', notA);
+
+        setWire('wire_notB_in', inputB);
+        setWire('wire_notB_out', notB);
+
+        setWire('wire_nand_a', inputA);
+        setWire('wire_nand_b', inputB);
+        setWire('wire_nand_out', nandOut);
+
+        setWire('wire_nor_a', inputA);
+        setWire('wire_nor_b', inputB);
+        setWire('wire_nor_out', norOut);
+    }
+
+    function setBulb(bulbId, state) {
+        const bulb = document.getElementById(bulbId);
+        bulb.textContent = state;
+        if (state === 1) {
+            bulb.classList.add('lit');
+        } else {
+            bulb.classList.remove('lit');
+        }
+    }
+
+    function setWire(wireId, state) {
+        const wire = document.getElementById(wireId);
+        if (wire) {
+            if (state === 1) {
+                wire.classList.add('active');
+            } else {
+                wire.classList.remove('active');
+            }
+        }
+    }
+
+    // Initial render
+    updateSimulator();
+</script>
+
+</body>
+</html>
