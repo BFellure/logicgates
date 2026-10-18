@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logic Gate Simulator - NAND, NOR, NOT</title>
+    <title>Logic Gate Simulator</title>
     <style>
         body {
             margin: 0;
@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: transparent; /* Transparent background for Google Sites */
+            background: transparent;
             font-family: system-ui, -apple-system, sans-serif;
             color: #1e293b;
         }
@@ -40,7 +40,7 @@
             box-sizing: border-box;
         }
 
-        /* Header / Inputs Section */
+        /* Inputs Section */
         .inputs-section {
             display: flex;
             justify-content: center;
@@ -95,16 +95,6 @@
             align-items: center;
             gap: 8px;
             text-align: center;
-        }
-        .gate-name {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: #1e293b;
-        }
-        .gate-desc {
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-bottom: 2px;
         }
 
         /* SVG Schematic Container */
@@ -184,11 +174,11 @@
         <!-- Input Switches -->
         <div class="inputs-section">
             <div class="input-control">
-                <span class="input-label">Input A</span>
+                <span class="input-label">A</span>
                 <button class="toggle-btn" id="switchA" onclick="toggleInput('A')">0</button>
             </div>
             <div class="input-control">
-                <span class="input-label">Input B</span>
+                <span class="input-label">B</span>
                 <button class="toggle-btn" id="switchB" onclick="toggleInput('B')">0</button>
             </div>
         </div>
@@ -197,8 +187,6 @@
         <div class="gates-grid">
             <!-- NOT A -->
             <div class="gate-box">
-                <div class="gate-name">NOT Gate</div>
-                <div class="gate-desc">Inverts Input A</div>
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
                         <polygon points="20,10 20,50 65,30" fill="none" stroke="#334155" stroke-width="3"/>
@@ -215,8 +203,6 @@
 
             <!-- NOT B -->
             <div class="gate-box">
-                <div class="gate-name">NOT Gate</div>
-                <div class="gate-desc">Inverts Input B</div>
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
                         <polygon points="20,10 20,50 65,30" fill="none" stroke="#334155" stroke-width="3"/>
@@ -233,8 +219,6 @@
 
             <!-- NAND -->
             <div class="gate-box">
-                <div class="gate-name">NAND Gate</div>
-                <div class="gate-desc">NOT (A AND B)</div>
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
                         <path d="M 20 10 L 45 10 A 20 20 0 0 1 45 50 L 20 50 Z" fill="none" stroke="#334155" stroke-width="3"/>
@@ -252,107 +236,8 @@
 
             <!-- NOR -->
             <div class="gate-box">
-                <div class="gate-name">NOR Gate</div>
-                <div class="gate-desc">NOT (A OR B)</div>
                 <div class="schematic-container">
                     <svg viewBox="0 0 100 60">
                         <path d="M 15 10 Q 30 30 15 50 Q 45 50 65 30 Q 45 10 15 10 Z" fill="none" stroke="#334155" stroke-width="3"/>
                         <circle cx="71" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
-                        <line x1="5" y1="20" x2="21" y2="20" stroke="#334155" stroke-width="3"/>
-                        <line x1="5" y1="40" x2="21" y2="40" stroke="#334155" stroke-width="3"/>
-                        <line x1="76" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
-                    </svg>
-                    <div class="output-indicator">
-                        <span class="output-label">Out</span>
-                        <div class="output-bulb" id="bulbNor">0</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reset Button -->
-        <div class="controls-row">
-            <button class="sim-btn" onclick="resetInputs()">Reset Inputs</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    let inputA = 0;
-    let inputB = 0;
-
-    // Web Audio API click feedback
-    let audioCtx = null;
-    function playClick() {
-        try {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.04);
-        } catch(e) {}
-    }
-
-    function toggleInput(target) {
-        playClick();
-        if (target === 'A') {
-            inputA = inputA === 0 ? 1 : 0;
-        } else {
-            inputB = inputB === 0 ? 1 : 0;
-        }
-        updateSimulator();
-    }
-
-    function resetInputs() {
-        playClick();
-        inputA = 0;
-        inputB = 0;
-        updateSimulator();
-    }
-
-    function updateSimulator() {
-        // Update switch states
-        const btnA = document.getElementById('switchA');
-        const btnB = document.getElementById('switchB');
-
-        btnA.textContent = inputA;
-        btnA.classList.toggle('active', inputA === 1);
-        
-        btnB.textContent = inputB;
-        btnB.classList.toggle('active', inputB === 1);
-
-        // Logic calculations
-        const notA = inputA === 0 ? 1 : 0;
-        const notB = inputB === 0 ? 1 : 0;
-        const nandOut = (inputA === 1 && inputB === 1) ? 0 : 1;
-        const norOut = (inputA === 1 || inputB === 1) ? 0 : 1;
-
-        // Update bulb displays
-        setBulb('bulbNotA', notA);
-        setBulb('bulbNotB', notB);
-        setBulb('bulbNand', nandOut);
-        setBulb('bulbNor', norOut);
-    }
-
-    function setBulb(bulbId, state) {
-        const bulb = document.getElementById(bulbId);
-        bulb.textContent = state;
-        if (state === 1) {
-            bulb.classList.add('lit');
-        } else {
-            bulb.classList.remove('lit');
-        }
-    }
-
-    // Initial render
-    updateSimulator();
-</script>
-
-</body>
-</html>
+                        <line x1="5" y1="20" x2="21" y2="20" stroke="#334155" stroke-
