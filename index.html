@@ -23,7 +23,7 @@
             align-items: center;
             gap: 20px;
             width: 100%;
-            max-width: 650px;
+            max-width: 720px;
             padding: 20px;
             box-sizing: border-box;
         }
@@ -82,7 +82,7 @@
         /* Gates Grid */
         .gates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 15px;
         }
         .gate-box {
@@ -93,22 +93,49 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             text-align: center;
         }
         .gate-name {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 800;
             color: #1e293b;
         }
         .gate-desc {
             font-size: 0.7rem;
             color: #64748b;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+        }
+
+        /* SVG Schematic Container */
+        .schematic-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        svg {
+            width: 110px;
+            height: 60px;
+        }
+
+        /* Output Bulb Indicator */
+        .output-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .output-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
         }
         .output-bulb {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             border: 2px solid #cbd5e1;
             background: #e2e8f0;
@@ -116,7 +143,7 @@
             justify-content: center;
             align-items: center;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #64748b;
             transition: all 0.2s ease;
         }
@@ -124,7 +151,7 @@
             background: #fef08a;
             border-color: #eab308;
             color: #ca8a04;
-            box-shadow: 0 0 15px #fde047;
+            box-shadow: 0 0 12px #fde047;
         }
 
         /* Controls */
@@ -148,49 +175,6 @@
         .sim-btn:hover {
             background: #475569;
         }
-
-        /* Disclaimer Section */
-        .disclaimer-container {
-            border-top: 1px solid #f1f5f9;
-            padding-top: 15px;
-            margin-top: 5px;
-            text-align: center;
-        }
-        .disclaimer-toggle {
-            background: none;
-            border: none;
-            color: #64748b;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: underline;
-            padding: 0;
-            transition: color 0.2s;
-        }
-        .disclaimer-toggle:hover {
-            color: #3b82f6;
-        }
-        .disclaimer-content {
-            font-size: 0.75rem;
-            color: #64748b;
-            background: #f8fafc;
-            padding: 10px 14px;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-            margin-top: 10px;
-            text-align: left;
-            line-height: 1.4;
-        }
-        .disclaimer-content a {
-            color: #3b82f6;
-            text-decoration: none;
-        }
-        .disclaimer-content a:hover {
-            text-decoration: underline;
-        }
-        .hidden {
-            display: none !important;
-        }
     </style>
 </head>
 <body>
@@ -209,47 +193,86 @@
             </div>
         </div>
 
-        <!-- Logic Gates Display Grid -->
+        <!-- Logic Gates Display Grid with Schematic Symbols -->
         <div class="gates-grid">
             <!-- NOT A -->
             <div class="gate-box">
-                <div class="gate-name">NOT A</div>
+                <div class="gate-name">NOT Gate</div>
                 <div class="gate-desc">Inverts Input A</div>
-                <div class="output-bulb" id="bulbNotA">0</div>
+                <div class="schematic-container">
+                    <svg viewBox="0 0 100 60">
+                        <polygon points="20,10 20,50 65,30" fill="none" stroke="#334155" stroke-width="3"/>
+                        <circle cx="71" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="30" x2="20" y2="30" stroke="#334155" stroke-width="3"/>
+                        <line x1="76" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
+                    </svg>
+                    <div class="output-indicator">
+                        <span class="output-label">Out</span>
+                        <div class="output-bulb" id="bulbNotA">0</div>
+                    </div>
+                </div>
             </div>
+
             <!-- NOT B -->
             <div class="gate-box">
-                <div class="gate-name">NOT B</div>
+                <div class="gate-name">NOT Gate</div>
                 <div class="gate-desc">Inverts Input B</div>
-                <div class="output-bulb" id="bulbNotB">0</div>
+                <div class="schematic-container">
+                    <svg viewBox="0 0 100 60">
+                        <polygon points="20,10 20,50 65,30" fill="none" stroke="#334155" stroke-width="3"/>
+                        <circle cx="71" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="30" x2="20" y2="30" stroke="#334155" stroke-width="3"/>
+                        <line x1="76" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
+                    </svg>
+                    <div class="output-indicator">
+                        <span class="output-label">Out</span>
+                        <div class="output-bulb" id="bulbNotB">0</div>
+                    </div>
+                </div>
             </div>
+
             <!-- NAND -->
             <div class="gate-box">
-                <div class="gate-name">NAND</div>
+                <div class="gate-name">NAND Gate</div>
                 <div class="gate-desc">NOT (A AND B)</div>
-                <div class="output-bulb" id="bulbNand">0</div>
+                <div class="schematic-container">
+                    <svg viewBox="0 0 100 60">
+                        <path d="M 20 10 L 45 10 A 20 20 0 0 1 45 50 L 20 50 Z" fill="none" stroke="#334155" stroke-width="3"/>
+                        <circle cx="69" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="20" x2="20" y2="20" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="40" x2="20" y2="40" stroke="#334155" stroke-width="3"/>
+                        <line x1="74" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
+                    </svg>
+                    <div class="output-indicator">
+                        <span class="output-label">Out</span>
+                        <div class="output-bulb" id="bulbNand">0</div>
+                    </div>
+                </div>
             </div>
+
             <!-- NOR -->
             <div class="gate-box">
-                <div class="gate-name">NOR</div>
+                <div class="gate-name">NOR Gate</div>
                 <div class="gate-desc">NOT (A OR B)</div>
-                <div class="output-bulb" id="bulbNor">0</div>
+                <div class="schematic-container">
+                    <svg viewBox="0 0 100 60">
+                        <path d="M 15 10 Q 30 30 15 50 Q 45 50 65 30 Q 45 10 15 10 Z" fill="none" stroke="#334155" stroke-width="3"/>
+                        <circle cx="71" cy="30" r="5" fill="none" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="20" x2="21" y2="20" stroke="#334155" stroke-width="3"/>
+                        <line x1="5" y1="40" x2="21" y2="40" stroke="#334155" stroke-width="3"/>
+                        <line x1="76" y1="30" x2="95" y2="30" stroke="#334155" stroke-width="3"/>
+                    </svg>
+                    <div class="output-indicator">
+                        <span class="output-label">Out</span>
+                        <div class="output-bulb" id="bulbNor">0</div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Reset Button -->
         <div class="controls-row">
             <button class="sim-btn" onclick="resetInputs()">Reset Inputs</button>
-        </div>
-
-        <!-- Footer Disclaimer Dropdown -->
-        <div class="disclaimer-container">
-            <button class="disclaimer-toggle" onclick="toggleDisclaimer()">Disclaimer</button>
-            <div class="disclaimer-content hidden" id="disclaimerBox">
-                <strong>Development & AI Disclaimer:</strong><br>
-                Purely the interactive components, such as quizzes and simulators, were generated using Google Gemini large language models with direct human oversight, design direction, and code validation by Bodin Fellure.<br><br>
-                Source code can be found at: <a href="https://github.com/BFellure/BinarySimulation/tree/main" target="_blank">https://github.com/BFellure/BinarySimulation/tree/main</a>
-            </div>
         </div>
     </div>
 </div>
@@ -299,7 +322,6 @@
         const btnB = document.getElementById('switchB');
 
         btnA.textContent = inputA;
-        btnB.textContent = inputA; // wait fix below
         btnA.classList.toggle('active', inputA === 1);
         
         btnB.textContent = inputB;
@@ -326,11 +348,6 @@
         } else {
             bulb.classList.remove('lit');
         }
-    }
-
-    function toggleDisclaimer() {
-        const box = document.getElementById('disclaimerBox');
-        box.classList.toggle('hidden');
     }
 
     // Initial render
