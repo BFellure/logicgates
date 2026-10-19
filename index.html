@@ -76,7 +76,7 @@
         svg {
             width: 100%;
             max-width: 320px;
-            height: 90px;
+            height: 95px;
             overflow: visible;
         }
 
@@ -120,14 +120,21 @@
             stroke: #dc2626;
             filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.5));
         }
-        .input-text {
+        .input-label-text {
             font-size: 11px;
             font-weight: 800;
             fill: #475569;
             user-select: none;
             pointer-events: none;
         }
-        .input-node.active .input-text {
+        .input-digit-text {
+            font-size: 12px;
+            font-weight: 800;
+            fill: #475569;
+            user-select: none;
+            pointer-events: none;
+        }
+        .input-node.active .input-digit-text {
             fill: #ffffff;
         }
 
@@ -143,6 +150,13 @@
             stroke: #eab308;
             filter: drop-shadow(0 0 8px rgba(234, 179, 8, 0.8));
         }
+        .output-label-text {
+            font-size: 9px;
+            font-weight: 800;
+            fill: #64748b;
+            user-select: none;
+            pointer-events: none;
+        }
         .output-text {
             font-size: 12px;
             font-weight: 800;
@@ -153,117 +167,110 @@
         .output-text.lit {
             fill: #854d0e;
         }
-
-        /* Controls */
-        .controls-row {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-        }
-        .sim-btn {
-            background: #475569;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
-        }
-        .sim-btn:hover {
-            background: #334155;
-        }
     </style>
 </head>
 <body>
 
 <div class="main-container">
     <div class="sim-card">
-
         <div class="gates-layout">
-            <!-- NOT Gate (Connected to Input C) -->
+            <!-- NOT Gate (Connected to Input A) -->
             <div class="gate-box single-center">
-                <svg viewBox="0 0 240 80">
-                    <!-- Input Bubble C -->
-                    <g class="input-node" id="node_C" onclick="toggleInput('C')">
-                        <circle cx="22" cy="40" r="14" class="input-bubble-bg" id="bubble_C"/>
-                        <text x="22" y="44" text-anchor="middle" class="input-text" id="text_C">C: 0</text>
+                <svg viewBox="0 0 240 85">
+                    <!-- Input Label A above Bubble -->
+                    <text x="22" y="14" text-anchor="middle" class="input-label-text">A</text>
+                    <!-- Input Bubble A -->
+                    <g class="input-node" id="node_not_A" onclick="toggleInput('A')">
+                        <circle cx="22" cy="42" r="14" class="input-bubble-bg" id="bubble_not_A"/>
+                        <text x="22" y="46" text-anchor="middle" class="input-digit-text" id="digit_not_A">0</text>
                     </g>
                     <!-- Input Wire -->
-                    <line x1="36" y1="40" x2="70" y2="40" class="wire" id="wire_not_in"/>
+                    <line x1="36" y1="42" x2="70" y2="42" class="wire" id="wire_not_in"/>
                     <!-- NOT Symbol -->
-                    <polygon points="70,18 70,62 118,40" class="gate-shape"/>
-                    <circle cx="123" cy="40" r="5" class="gate-shape"/>
+                    <polygon points="70,20 70,64 118,42" class="gate-shape"/>
+                    <circle cx="123" cy="42" r="5" class="gate-shape"/>
                     <!-- Output Wire into Output Bulb -->
-                    <line x1="128" y1="40" x2="182" y2="40" class="wire" id="wire_not_out"/>
+                    <line x1="128" y1="42" x2="182" y2="42" class="wire" id="wire_not_out"/>
                     <!-- Connected Output Bulb -->
-                    <circle cx="198" cy="40" r="16" class="output-bulb-bg" id="bulb_not"/>
-                    <text x="198" y="45" text-anchor="middle" class="output-text" id="outtext_not">0</text>
+                    <text x="198" y="14" text-anchor="middle" class="output-label-text">OUT</text>
+                    <circle cx="198" cy="42" r="16" class="output-bulb-bg" id="bulb_not"/>
+                    <text x="198" y="47" text-anchor="middle" class="output-text" id="outtext_not">0</text>
                 </svg>
             </div>
 
             <div class="gates-row">
                 <!-- NAND Gate (Connected to Inputs A and B) -->
                 <div class="gate-box">
-                    <svg viewBox="0 0 240 80">
+                    <svg viewBox="0 0 240 85">
+                        <!-- Input Label A -->
+                        <text x="22" y="10" text-anchor="middle" class="input-label-text">A</text>
                         <!-- Input Bubble A -->
                         <g class="input-node" id="node_nand_A" onclick="toggleInput('A')">
-                            <circle cx="22" cy="22" r="14" class="input-bubble-bg" id="bubble_nand_A"/>
-                            <text x="22" y="26" text-anchor="middle" class="input-text" id="text_nand_A">A: 0</text>
+                            <circle cx="22" cy="28" r="13" class="input-bubble-bg" id="bubble_nand_A"/>
+                            <text x="22" y="32" text-anchor="middle" class="input-digit-text" id="digit_nand_A">0</text>
                         </g>
+
+                        <!-- Input Label B -->
+                        <text x="22" y="48" text-anchor="middle" class="input-label-text">B</text>
                         <!-- Input Bubble B -->
                         <g class="input-node" id="node_nand_B" onclick="toggleInput('B')">
-                            <circle cx="22" cy="58" r="14" class="input-bubble-bg" id="bubble_nand_B"/>
-                            <text x="22" y="62" text-anchor="middle" class="input-text" id="text_nand_B">B: 0</text>
+                            <circle cx="22" cy="66" r="13" class="input-bubble-bg" id="bubble_nand_B"/>
+                            <text x="22" y="70" text-anchor="middle" class="input-digit-text" id="digit_nand_B">0</text>
                         </g>
+
                         <!-- Input Wires -->
-                        <line x1="36" y1="22" x2="70" y2="22" class="wire" id="wire_nand_a"/>
-                        <line x1="36" y1="58" x2="70" y2="58" class="wire" id="wire_nand_b"/>
+                        <line x1="35" y1="28" x2="70" y2="28" class="wire" id="wire_nand_a"/>
+                        <line x1="35" y1="66" x2="70" y2="66" class="wire" id="wire_nand_b"/>
+
                         <!-- NAND Symbol -->
-                        <path d="M 70 14 L 92 14 A 26 26 0 0 1 92 66 L 70 66 Z" class="gate-shape"/>
-                        <circle cx="123" cy="40" r="5" class="gate-shape"/>
+                        <path d="M 70 20 L 92 20 A 24 24 0 0 1 92 74 L 70 74 Z" class="gate-shape"/>
+                        <circle cx="121" cy="47" r="5" class="gate-shape"/>
+
                         <!-- Output Wire into Output Bulb -->
-                        <line x1="128" y1="40" x2="182" y2="40" class="wire" id="wire_nand_out"/>
+                        <line x1="126" y1="47" x2="182" y2="47" class="wire" id="wire_nand_out"/>
                         <!-- Connected Output Bulb -->
-                        <circle cx="198" cy="40" r="16" class="output-bulb-bg" id="bulb_nand"/>
-                        <text x="198" y="45" text-anchor="middle" class="output-text" id="outtext_nand">0</text>
+                        <text x="198" y="18" text-anchor="middle" class="output-label-text">OUT</text>
+                        <circle cx="198" cy="47" r="16" class="output-bulb-bg" id="bulb_nand"/>
+                        <text x="198" y="52" text-anchor="middle" class="output-text" id="outtext_nand">0</text>
                     </svg>
                 </div>
 
                 <!-- NOR Gate (Connected to Inputs A and B) -->
                 <div class="gate-box">
-                    <svg viewBox="0 0 240 80">
+                    <svg viewBox="0 0 240 85">
+                        <!-- Input Label A -->
+                        <text x="22" y="10" text-anchor="middle" class="input-label-text">A</text>
                         <!-- Input Bubble A -->
                         <g class="input-node" id="node_nor_A" onclick="toggleInput('A')">
-                            <circle cx="22" cy="22" r="14" class="input-bubble-bg" id="bubble_nor_A"/>
-                            <text x="22" y="26" text-anchor="middle" class="input-text" id="text_nor_A">A: 0</text>
+                            <circle cx="22" cy="28" r="13" class="input-bubble-bg" id="bubble_nor_A"/>
+                            <text x="22" y="32" text-anchor="middle" class="input-digit-text" id="digit_nor_A">0</text>
                         </g>
+
+                        <!-- Input Label B -->
+                        <text x="22" y="48" text-anchor="middle" class="input-label-text">B</text>
                         <!-- Input Bubble B -->
                         <g class="input-node" id="node_nor_B" onclick="toggleInput('B')">
-                            <circle cx="22" cy="58" r="14" class="input-bubble-bg" id="bubble_nor_B"/>
-                            <text x="22" y="62" text-anchor="middle" class="input-text" id="text_nor_B">B: 0</text>
+                            <circle cx="22" cy="66" r="13" class="input-bubble-bg" id="bubble_nor_B"/>
+                            <text x="22" y="70" text-anchor="middle" class="input-digit-text" id="digit_nor_B">0</text>
                         </g>
+
                         <!-- Input Wires -->
-                        <line x1="36" y1="22" x2="68" y2="22" class="wire" id="wire_nor_a"/>
-                        <line x1="36" y1="58" x2="68" y2="58" class="wire" id="wire_nor_b"/>
+                        <line x1="35" y1="28" x2="68" y2="28" class="wire" id="wire_nor_a"/>
+                        <line x1="35" y1="66" x2="68" y2="66" class="wire" id="wire_nor_b"/>
+
                         <!-- NOR Symbol -->
-                        <path d="M 64 14 Q 80 40 64 66 Q 98 66 118 40 Q 98 14 64 14 Z" class="gate-shape"/>
-                        <circle cx="123" cy="40" r="5" class="gate-shape"/>
+                        <path d="M 64 20 Q 80 47 64 74 Q 98 74 118 47 Q 98 20 64 20 Z" class="gate-shape"/>
+                        <circle cx="123" cy="47" r="5" class="gate-shape"/>
+
                         <!-- Output Wire into Output Bulb -->
-                        <line x1="128" y1="40" x2="182" y2="40" class="wire" id="wire_nor_out"/>
+                        <line x1="128" y1="47" x2="182" y2="47" class="wire" id="wire_nor_out"/>
                         <!-- Connected Output Bulb -->
-                        <circle cx="198" cy="40" r="16" class="output-bulb-bg" id="bulb_nor"/>
-                        <text x="198" y="45" text-anchor="middle" class="output-text" id="outtext_nor">0</text>
+                        <text x="198" y="18" text-anchor="middle" class="output-label-text">OUT</text>
+                        <circle cx="198" cy="47" r="16" class="output-bulb-bg" id="bulb_nor"/>
+                        <text x="198" y="52" text-anchor="middle" class="output-text" id="outtext_nor">0</text>
                     </svg>
                 </div>
             </div>
-        </div>
-
-        <!-- Reset Button -->
-        <div class="controls-row">
-            <button class="sim-btn" onclick="resetInputs()">Reset Inputs</button>
         </div>
     </div>
 </div>
@@ -271,7 +278,6 @@
 <script>
     let inputA = 0;
     let inputB = 0;
-    let inputC = 0;
 
     let audioCtx = null;
     function playClick() {
@@ -294,33 +300,24 @@
         playClick();
         if (target === 'A') inputA = inputA === 0 ? 1 : 0;
         if (target === 'B') inputB = inputB === 0 ? 1 : 0;
-        if (target === 'C') inputC = inputC === 0 ? 1 : 0;
-        updateSimulator();
-    }
-
-    function resetInputs() {
-        playClick();
-        inputA = 0;
-        inputB = 0;
-        inputC = 0;
         updateSimulator();
     }
 
     function updateSimulator() {
         // Calculate outputs
-        const notOut = inputC === 0 ? 1 : 0;
+        const notOut = inputA === 0 ? 1 : 0;
         const nandOut = (inputA === 1 && inputB === 1) ? 0 : 1;
         const norOut = (inputA === 1 || inputB === 1) ? 0 : 1;
 
-        // Update Input Nodes (A, B, C)
-        updateInputNode('C', inputC);
-        updateInputNode('nand_A', inputA, 'A');
-        updateInputNode('nand_B', inputB, 'B');
-        updateInputNode('nor_A', inputA, 'A');
-        updateInputNode('nor_B', inputB, 'B');
+        // Update Input Bubbles
+        updateInputNode('not_A', inputA);
+        updateInputNode('nand_A', inputA);
+        updateInputNode('nand_B', inputB);
+        updateInputNode('nor_A', inputA);
+        updateInputNode('nor_B', inputB);
 
         // Update Wires
-        setWire('wire_not_in', inputC);
+        setWire('wire_not_in', inputA);
         setWire('wire_not_out', notOut);
 
         setWire('wire_nand_a', inputA);
@@ -337,15 +334,14 @@
         setOutputBulb('bulb_nor', 'outtext_nor', norOut);
     }
 
-    function updateInputNode(id, state, label) {
-        const name = label || id;
+    function updateInputNode(id, state) {
         const node = document.getElementById(`node_${id}`);
-        const text = document.getElementById(`text_${id}`);
+        const digit = document.getElementById(`digit_${id}`);
         if (node) {
             node.classList.toggle('active', state === 1);
         }
-        if (text) {
-            text.textContent = `${name}: ${state}`;
+        if (digit) {
+            digit.textContent = state;
         }
     }
 
