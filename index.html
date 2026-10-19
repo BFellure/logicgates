@@ -174,24 +174,18 @@
 <div class="main-container">
     <div class="sim-card">
         <div class="gates-layout">
-            <!-- NOT Gate (Connected to Input A) -->
+            <!-- NOT Gate (Independent Input) -->
             <div class="gate-box single-center">
                 <svg viewBox="0 0 240 85">
-                    <!-- Input Label A above Bubble -->
                     <text x="22" y="14" text-anchor="middle" class="input-label-text">A</text>
-                    <!-- Input Bubble A -->
-                    <g class="input-node" id="node_not_A" onclick="toggleInput('A')">
+                    <g class="input-node" id="node_not_A" onclick="toggleGateInput('not_A')">
                         <circle cx="22" cy="42" r="14" class="input-bubble-bg" id="bubble_not_A"/>
                         <text x="22" y="46" text-anchor="middle" class="input-digit-text" id="digit_not_A">0</text>
                     </g>
-                    <!-- Input Wire -->
                     <line x1="36" y1="42" x2="70" y2="42" class="wire" id="wire_not_in"/>
-                    <!-- NOT Symbol -->
                     <polygon points="70,20 70,64 118,42" class="gate-shape"/>
                     <circle cx="123" cy="42" r="5" class="gate-shape"/>
-                    <!-- Output Wire into Output Bulb -->
                     <line x1="128" y1="42" x2="182" y2="42" class="wire" id="wire_not_out"/>
-                    <!-- Connected Output Bulb -->
                     <text x="198" y="14" text-anchor="middle" class="output-label-text">OUT</text>
                     <circle cx="198" cy="42" r="16" class="output-bulb-bg" id="bulb_not"/>
                     <text x="198" y="47" text-anchor="middle" class="output-text" id="outtext_not">0</text>
@@ -199,72 +193,56 @@
             </div>
 
             <div class="gates-row">
-                <!-- NAND Gate (Connected to Inputs A and B) -->
+                <!-- NAND Gate (Independent Inputs A and B) -->
                 <div class="gate-box">
                     <svg viewBox="0 0 240 85">
-                        <!-- Input Label A -->
                         <text x="22" y="10" text-anchor="middle" class="input-label-text">A</text>
-                        <!-- Input Bubble A -->
-                        <g class="input-node" id="node_nand_A" onclick="toggleInput('A')">
+                        <g class="input-node" id="node_nand_A" onclick="toggleGateInput('nand_A')">
                             <circle cx="22" cy="28" r="13" class="input-bubble-bg" id="bubble_nand_A"/>
                             <text x="22" y="32" text-anchor="middle" class="input-digit-text" id="digit_nand_A">0</text>
                         </g>
 
-                        <!-- Input Label B -->
                         <text x="22" y="48" text-anchor="middle" class="input-label-text">B</text>
-                        <!-- Input Bubble B -->
-                        <g class="input-node" id="node_nand_B" onclick="toggleInput('B')">
+                        <g class="input-node" id="node_nand_B" onclick="toggleGateInput('nand_B')">
                             <circle cx="22" cy="66" r="13" class="input-bubble-bg" id="bubble_nand_B"/>
                             <text x="22" y="70" text-anchor="middle" class="input-digit-text" id="digit_nand_B">0</text>
                         </g>
 
-                        <!-- Input Wires -->
                         <line x1="35" y1="28" x2="70" y2="28" class="wire" id="wire_nand_a"/>
                         <line x1="35" y1="66" x2="70" y2="66" class="wire" id="wire_nand_b"/>
 
-                        <!-- NAND Symbol -->
                         <path d="M 70 20 L 92 20 A 24 24 0 0 1 92 74 L 70 74 Z" class="gate-shape"/>
                         <circle cx="121" cy="47" r="5" class="gate-shape"/>
 
-                        <!-- Output Wire into Output Bulb -->
                         <line x1="126" y1="47" x2="182" y2="47" class="wire" id="wire_nand_out"/>
-                        <!-- Connected Output Bulb -->
                         <text x="198" y="18" text-anchor="middle" class="output-label-text">OUT</text>
                         <circle cx="198" cy="47" r="16" class="output-bulb-bg" id="bulb_nand"/>
                         <text x="198" y="52" text-anchor="middle" class="output-text" id="outtext_nand">0</text>
                     </svg>
                 </div>
 
-                <!-- NOR Gate (Connected to Inputs A and B) -->
+                <!-- NOR Gate (Independent Inputs A and B) -->
                 <div class="gate-box">
                     <svg viewBox="0 0 240 85">
-                        <!-- Input Label A -->
                         <text x="22" y="10" text-anchor="middle" class="input-label-text">A</text>
-                        <!-- Input Bubble A -->
-                        <g class="input-node" id="node_nor_A" onclick="toggleInput('A')">
+                        <g class="input-node" id="node_nor_A" onclick="toggleGateInput('nor_A')">
                             <circle cx="22" cy="28" r="13" class="input-bubble-bg" id="bubble_nor_A"/>
                             <text x="22" y="32" text-anchor="middle" class="input-digit-text" id="digit_nor_A">0</text>
                         </g>
 
-                        <!-- Input Label B -->
                         <text x="22" y="48" text-anchor="middle" class="input-label-text">B</text>
-                        <!-- Input Bubble B -->
-                        <g class="input-node" id="node_nor_B" onclick="toggleInput('B')">
+                        <g class="input-node" id="node_nor_B" onclick="toggleGateInput('nor_B')">
                             <circle cx="22" cy="66" r="13" class="input-bubble-bg" id="bubble_nor_B"/>
                             <text x="22" y="70" text-anchor="middle" class="input-digit-text" id="digit_nor_B">0</text>
                         </g>
 
-                        <!-- Input Wires -->
                         <line x1="35" y1="28" x2="68" y2="28" class="wire" id="wire_nor_a"/>
                         <line x1="35" y1="66" x2="68" y2="66" class="wire" id="wire_nor_b"/>
 
-                        <!-- NOR Symbol -->
                         <path d="M 64 20 Q 80 47 64 74 Q 98 74 118 47 Q 98 20 64 20 Z" class="gate-shape"/>
                         <circle cx="123" cy="47" r="5" class="gate-shape"/>
 
-                        <!-- Output Wire into Output Bulb -->
                         <line x1="128" y1="47" x2="182" y2="47" class="wire" id="wire_nor_out"/>
-                        <!-- Connected Output Bulb -->
                         <text x="198" y="18" text-anchor="middle" class="output-label-text">OUT</text>
                         <circle cx="198" cy="47" r="16" class="output-bulb-bg" id="bulb_nor"/>
                         <text x="198" y="52" text-anchor="middle" class="output-text" id="outtext_nor">0</text>
@@ -276,8 +254,14 @@
 </div>
 
 <script>
-    let inputA = 0;
-    let inputB = 0;
+    // Completely independent input states per gate input bubble
+    const gateInputs = {
+        not_A: 0,
+        nand_A: 0,
+        nand_B: 0,
+        nor_A: 0,
+        nor_B: 0
+    };
 
     let audioCtx = null;
     function playClick() {
@@ -296,36 +280,33 @@
         } catch(e) {}
     }
 
-    function toggleInput(target) {
+    function toggleGateInput(key) {
         playClick();
-        if (target === 'A') inputA = inputA === 0 ? 1 : 0;
-        if (target === 'B') inputB = inputB === 0 ? 1 : 0;
+        gateInputs[key] = gateInputs[key] === 0 ? 1 : 0;
         updateSimulator();
     }
 
     function updateSimulator() {
-        // Calculate outputs
-        const notOut = inputA === 0 ? 1 : 0;
-        const nandOut = (inputA === 1 && inputB === 1) ? 0 : 1;
-        const norOut = (inputA === 1 || inputB === 1) ? 0 : 1;
+        // Compute outputs independently
+        const notOut = gateInputs.not_A === 0 ? 1 : 0;
+        const nandOut = (gateInputs.nand_A === 1 && gateInputs.nand_B === 1) ? 0 : 1;
+        const norOut = (gateInputs.nor_A === 1 || gateInputs.nor_B === 1) ? 0 : 1;
 
         // Update Input Bubbles
-        updateInputNode('not_A', inputA);
-        updateInputNode('nand_A', inputA);
-        updateInputNode('nand_B', inputB);
-        updateInputNode('nor_A', inputA);
-        updateInputNode('nor_B', inputB);
+        for (const [key, val] of Object.entries(gateInputs)) {
+            updateInputNode(key, val);
+        }
 
         // Update Wires
-        setWire('wire_not_in', inputA);
+        setWire('wire_not_in', gateInputs.not_A);
         setWire('wire_not_out', notOut);
 
-        setWire('wire_nand_a', inputA);
-        setWire('wire_nand_b', inputB);
+        setWire('wire_nand_a', gateInputs.nand_A);
+        setWire('wire_nand_b', gateInputs.nand_B);
         setWire('wire_nand_out', nandOut);
 
-        setWire('wire_nor_a', inputA);
-        setWire('wire_nor_b', inputB);
+        setWire('wire_nor_a', gateInputs.nor_A);
+        setWire('wire_nor_b', gateInputs.nor_B);
         setWire('wire_nor_out', norOut);
 
         // Update Output Bulbs
