@@ -159,4 +159,190 @@
         }
         .output-text {
             font-size: 12px;
-            font
+            font-weight: 800;
+            fill: #64748b;
+            user-select: none;
+            pointer-events: none;
+        }
+        .output-text.lit {
+            fill: #854d0e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="sim-card">
+        <div class="gates-layout">
+            <!-- NOT Gate -->
+            <div class="gate-box single-center">
+                <svg viewBox="0 0 240 95">
+                    <text x="22" y="16" text-anchor="middle" class="input-label-text">A</text>
+                    <g class="input-node" id="node_not_A" onclick="toggleGateInput('not_A')">
+                        <circle cx="22" cy="48" r="14" class="input-bubble-bg" id="bubble_not_A"/>
+                        <text x="22" y="52" text-anchor="middle" class="input-digit-text" id="digit_not_A">0</text>
+                    </g>
+                    <line x1="36" y1="48" x2="70" y2="48" class="wire" id="wire_not_in"/>
+                    <polygon points="70,26 70,70 114,48" class="gate-shape"/>
+                    <circle cx="119" cy="48" r="5" class="gate-shape"/>
+                    <line x1="124" y1="48" x2="182" y2="48" class="wire" id="wire_not_out"/>
+                    <text x="198" y="16" text-anchor="middle" class="output-label-text">OUT</text>
+                    <circle cx="198" cy="48" r="16" class="output-bulb-bg" id="bulb_not"/>
+                    <text x="198" y="53" text-anchor="middle" class="output-text" id="outtext_not">0</text>
+                </svg>
+            </div>
+
+            <div class="gates-row">
+                <!-- NAND Gate -->
+                <div class="gate-box">
+                    <svg viewBox="0 0 240 95">
+                        <text x="22" y="12" text-anchor="middle" class="input-label-text">A</text>
+                        <g class="input-node" id="node_nand_A" onclick="toggleGateInput('nand_A')">
+                            <circle cx="22" cy="30" r="13" class="input-bubble-bg" id="bubble_nand_A"/>
+                            <text x="22" y="34" text-anchor="middle" class="input-digit-text" id="digit_nand_A">0</text>
+                        </g>
+
+                        <text x="22" y="56" text-anchor="middle" class="input-label-text">B</text>
+                        <g class="input-node" id="node_nand_B" onclick="toggleGateInput('nand_B')">
+                            <circle cx="22" cy="74" r="13" class="input-bubble-bg" id="bubble_nand_B"/>
+                            <text x="22" y="78" text-anchor="middle" class="input-digit-text" id="digit_nand_B">0</text>
+                        </g>
+
+                        <line x1="35" y1="30" x2="70" y2="30" class="wire" id="wire_nand_a"/>
+                        <line x1="35" y1="74" x2="70" y2="74" class="wire" id="wire_nand_b"/>
+
+                        <path d="M 70 22 L 92 22 A 26 26 0 0 1 92 82 L 70 82 Z" class="gate-shape"/>
+                        <circle cx="123" cy="52" r="5" class="gate-shape"/>
+
+                        <line x1="128" y1="52" x2="182" y2="52" class="wire" id="wire_nand_out"/>
+                        <text x="198" y="20" text-anchor="middle" class="output-label-text">OUT</text>
+                        <circle cx="198" cy="52" r="16" class="output-bulb-bg" id="bulb_nand"/>
+                        <text x="198" y="57" text-anchor="middle" class="output-text" id="outtext_nand">0</text>
+                    </svg>
+                </div>
+
+                <!-- NOR Gate -->
+                <div class="gate-box">
+                    <svg viewBox="0 0 240 95">
+                        <text x="22" y="12" text-anchor="middle" class="input-label-text">A</text>
+                        <g class="input-node" id="node_nor_A" onclick="toggleGateInput('nor_A')">
+                            <circle cx="22" cy="30" r="13" class="input-bubble-bg" id="bubble_nor_A"/>
+                            <text x="22" y="34" text-anchor="middle" class="input-digit-text" id="digit_nor_A">0</text>
+                        </g>
+
+                        <text x="22" y="56" text-anchor="middle" class="input-label-text">B</text>
+                        <g class="input-node" id="node_nor_B" onclick="toggleGateInput('nor_B')">
+                            <circle cx="22" cy="74" r="13" class="input-bubble-bg" id="bubble_nor_B"/>
+                            <text x="22" y="78" text-anchor="middle" class="input-digit-text" id="digit_nor_B">0</text>
+                        </g>
+
+                        <line x1="35" y1="30" x2="68" y2="30" class="wire" id="wire_nor_a"/>
+                        <line x1="35" y1="74" x2="68" y2="74" class="wire" id="wire_nor_b"/>
+
+                        <path d="M 64 22 Q 80 52 64 82 Q 98 82 118 52 Q 98 22 64 22 Z" class="gate-shape"/>
+                        <circle cx="123" cy="52" r="5" class="gate-shape"/>
+
+                        <line x1="128" y1="52" x2="182" y2="52" class="wire" id="wire_nor_out"/>
+                        <text x="198" y="20" text-anchor="middle" class="output-label-text">OUT</text>
+                        <circle cx="198" cy="52" r="16" class="output-bulb-bg" id="bulb_nor"/>
+                        <text x="198" y="57" text-anchor="middle" class="output-text" id="outtext_nor">0</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const gateInputs = {
+        not_A: 0,
+        nand_A: 0,
+        nand_B: 0,
+        nor_A: 0,
+        nor_B: 0
+    };
+
+    let audioCtx = null;
+    function playClick() {
+        try {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.04);
+        } catch(e) {}
+    }
+
+    function toggleGateInput(key) {
+        playClick();
+        gateInputs[key] = gateInputs[key] === 0 ? 1 : 0;
+        updateSimulator();
+    }
+
+    function updateSimulator() {
+        const notOut = gateInputs.not_A === 0 ? 1 : 0;
+        const nandOut = (gateInputs.nand_A === 1 && gateInputs.nand_B === 1) ? 0 : 1;
+        const norOut = (gateInputs.nor_A === 1 || gateInputs.nor_B === 1) ? 0 : 1;
+
+        for (const [key, val] of Object.entries(gateInputs)) {
+            updateInputNode(key, val);
+        }
+
+        setWire('wire_not_in', gateInputs.not_A);
+        setWire('wire_not_out', notOut);
+
+        setWire('wire_nand_a', gateInputs.nand_A);
+        setWire('wire_nand_b', gateInputs.nand_B);
+        setWire('wire_nand_out', nandOut);
+
+        setWire('wire_nor_a', gateInputs.nor_A);
+        setWire('wire_nor_b', gateInputs.nor_B);
+        setWire('wire_nor_out', norOut);
+
+        setOutputBulb('bulb_not', 'outtext_not', notOut);
+        setOutputBulb('bulb_nand', 'outtext_nand', nandOut);
+        setOutputBulb('bulb_nor', 'outtext_nor', norOut);
+    }
+
+    function updateInputNode(id, state) {
+        const node = document.getElementById(`node_${id}`);
+        const digit = document.getElementById(`digit_${id}`);
+        if (node) {
+            node.classList.toggle('active', state === 1);
+        }
+        if (digit) {
+            digit.textContent = state;
+        }
+    }
+
+    function setWire(wireId, state) {
+        const wire = document.getElementById(wireId);
+        if (wire) {
+            wire.classList.toggle('active', state === 1);
+        }
+    }
+
+    function setOutputBulb(bulbId, textId, state) {
+        const bulb = document.getElementById(bulbId);
+        const text = document.getElementById(textId);
+        if (bulb) {
+            bulb.classList.toggle('lit', state === 1);
+        }
+        if (text) {
+            text.textContent = state;
+            text.classList.toggle('lit', state === 1);
+        }
+    }
+
+    // Initial render
+    updateSimulator();
+</script>
+
+</body>
+</html>
